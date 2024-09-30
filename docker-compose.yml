@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  elasticsearch:
+    image: db-docker-prod-cps-ss.artifactory.danskenet.net/elasticsearch:7.11.1
+    container_name: elasticsearch
+    environment:
+        - node.name=es01
+        - cluster.name=es-docker-cluster
+        - cluster.initial_master_nodes=es01
+        - bootstrap.memory_lock=true
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+        memlock:
+            soft: -1
+            hard: -1
+    volumes:
+        - data01:/usr/share/elasticsearch/data
+    ports:
+        - 9200:9200
+    networks:
+        - elastic
+  kibana:
+    image: db-docker-prod-cps-ss.artifactory.danskenet.net/kibana:7.11.1
+    container_name: kibana
+    ports:
+        - 5601:5601
+    environment:
+        ELASTICSEARCH_URL: http://elasticsearch:9200
+        ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+        - elasticsearch
+    networks:
+        - elastic
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+    networks:
+        - elastic
+volumes:
+    data01:
+        driver: local
+
+networks:
+    elastic:
+        driver: bridge
