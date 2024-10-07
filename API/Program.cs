@@ -23,19 +23,6 @@ builder.Host.UseSerilog((hostBuilder, loggerConfiguration) =>
             BatchAction = ElasticOpType.Create
         });
 });
-//builder.Services.AddSerilog(c => 
-//    c.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(config["ElasticSearch:Uri"]!))
-//    {
-//        IndexFormat = $"{config["AppName"]}-logs-{builder.Environment.EnvironmentName.ToLower().Replace(".","-")}-{DateTime.UtcNow:yyyy-MM}",
-//        AutoRegisterTemplate = true,
-//        OverwriteTemplate = true,
-//        TemplateName = "kibana-app",
-//        AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
-//        TypeName = null,
-//        BatchAction = ElasticOpType.Create
-//    })
-//    .Enrich.WithProperty("Environment", builder.Environment.EnvironmentName)
-//    .ReadFrom.Configuration(config));
 
 var app = builder.Build();
 

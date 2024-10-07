@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   elasticsearch:
-    image: db-docker-prod-cps-ss.artifactory.danskenet.net/elasticsearch:7.11.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
     container_name: elasticsearch
     environment:
         - node.name=es01
@@ -21,7 +21,7 @@ services:
     networks:
         - elastic
   kibana:
-    image: db-docker-prod-cps-ss.artifactory.danskenet.net/kibana:7.11.1
+    image: docker.elastic.co/kibana/kibana:7.11.1
     container_name: kibana
     ports:
         - 5601:5601
